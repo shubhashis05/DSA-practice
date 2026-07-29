@@ -25,15 +25,15 @@ class Solution {
             slow = slow.next;
             fast = fast.next.next;
         }
-        ListNode nh = reverse(slow);
+        slow = reverse(slow);
         fast = head;
         int max = Integer.MIN_VALUE;
         int currentSum = 0;
-        while(nh != null){
-           currentSum = fast.val+nh.val;
+        while(slow != null){
+           currentSum = fast.val+slow.val;
            if(max<currentSum) max = currentSum;
            fast = fast.next;
-           nh = nh.next;
+           slow = slow.next;
         }
         return max;
     }

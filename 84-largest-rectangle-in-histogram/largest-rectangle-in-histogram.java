@@ -1,7 +1,7 @@
 class Solution {
     public int largestRectangleArea(int[] arr) {
         int n = arr.length;
-        if(n == 1) return arr[0];
+        // if(n == 1) return arr[0];
         int lse[] = new int[n];
         int rse[] = new int[n];
         Stack <Integer> st =  new Stack<>();

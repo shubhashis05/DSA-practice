@@ -1,25 +1,13 @@
 class Solution {
-    public String removeDuplicates(String s){
-
+    public String removeDuplicates(String s) {
         Stack<Character> st = new Stack<>();
-
-        for(int i = 0 ; i < s.length() ; i++){
-            char ch = s.charAt(i);
-
-            if(!st.isEmpty() && st.peek() == ch){
-                st.pop();
-            } else {
-                st.push(ch);
-            }
+        for(char c : s.toCharArray()){
+            if(st.isEmpty() || !st.peek().equals(c)) st.push(c);
+            else st.pop();
         }
-
         StringBuilder ans = new StringBuilder();
-
-        // iterate instead of popping → no reverse needed
-        for(char ch : st){
-            ans.append(ch);
-        }
-
+        for(char c : st)
+            ans.append(c);
         return ans.toString();
     }
 }

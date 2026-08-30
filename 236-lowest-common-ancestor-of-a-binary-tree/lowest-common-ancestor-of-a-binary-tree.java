@@ -8,19 +8,17 @@
  * }
  */
 class Solution {
-    public boolean isExists(TreeNode root ,TreeNode temp){
+    public boolean isexits(TreeNode root,TreeNode x){
         if(root == null) return false;
-        if(root == temp) return true;
-        if(isExists(root.left , temp))return true;
-        if(isExists(root.right , temp))return true;
-        return false;
+        if(root == x) return true;
+        return isexits(root.left , x) || isexits(root.right,x);
     }
     public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
-        if(root == p || root == q) return root;
-        boolean leftTreeP = isExists(root.left,p);
-        boolean leftTreeQ = isExists(root.left,q);
-        if(leftTreeP==true && leftTreeQ== true ) return lowestCommonAncestor(root.left,p,q);
-        if(leftTreeP==false && leftTreeQ== false ) return lowestCommonAncestor(root.right,p,q);
+        if(p == root || q == root) return root;
+        boolean leftp = isexits(root.left,p);
+        boolean leftq = isexits(root.left,q);
+        if(leftp && leftq) return lowestCommonAncestor(root.left,p,q);
+        if(!leftp && !leftq) return lowestCommonAncestor(root.right,p,q);
         return root;
     }
 }

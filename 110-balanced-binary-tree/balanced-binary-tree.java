@@ -1,12 +1,15 @@
 class Solution {
-    public int level(TreeNode root){
+    public int level(TreeNode root,boolean[] ans){
         if(root == null) return 0;
-        return 1+Math.max(level(root.left),level(root.right));
+        int left = level(root.left,ans);
+        int right = level(root.right,ans);
+        int diff = Math.abs(left-right);
+        if(diff > 1) ans[0]=false;
+        return 1+Math.max(left,right);
     }
     public boolean isBalanced(TreeNode root) {
-        if(root == null) return true;
-        int diff = Math.abs(level(root.left)-level(root.right));
-        if(diff > 1) return false;
-        return isBalanced(root.left) && isBalanced(root.right);
+        boolean[] ans = {true};
+        level(root,ans);
+        return ans[0];
     }
 }

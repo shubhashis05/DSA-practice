@@ -1,30 +1,15 @@
-/**
- * Definition for a binary tree node.
- * public class TreeNode {
- *     int val;
- *     TreeNode left;
- *     TreeNode right;
- *     TreeNode() {}
- *     TreeNode(int val) { this.val = val; }
- *     TreeNode(int val, TreeNode left, TreeNode right) {
- *         this.val = val;
- *         this.left = left;
- *         this.right = right;
- *     }
- * }
- */
 class Solution {
-    public int helper(TreeNode root){
+    public int level(TreeNode root,int[] ans){
         if(root == null) return 0;
-        int r = helper(root.right);
-        int l = helper(root.left);
-        return 1 + Math.max(r , l);
+        int right = level(root.right,ans);
+        int left = level(root.left,ans);
+        int dia = right+left;
+        ans[0] = Math.max(dia,ans[0]);
+        return 1+Math.max(right,left);
     }
     public int diameterOfBinaryTree(TreeNode root) {
-        if (root== null) return 0;
-        int mydia = helper(root.left) +helper(root.right);
-        int left = diameterOfBinaryTree(root.left);
-        int right = diameterOfBinaryTree(root.right);
-        return Math.max(mydia, Math.max(left,right));
+        int[] ans ={0};
+        level(root,ans);
+        return ans[0];        
     }
 }

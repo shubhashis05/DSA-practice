@@ -5,9 +5,10 @@ class Solution {
         tempCopy.add(root.val);
         if(root.val == t && root.left == null && root.right == null){
             ans.add(tempCopy);
+             return; // No need to check children for leaf node
         }
-        if(root.left != null) helper(root.left, t-root.val, tempCopy , ans);
-        if(root.right != null) helper(root.right, t-root.val, tempCopy , ans);
+        helper(root.left, t-root.val, tempCopy , ans);
+        helper(root.right, t-root.val, tempCopy , ans);
     }
     public List<List<Integer>> pathSum(TreeNode root, int t) {
         List<Integer> temp = new ArrayList<>();

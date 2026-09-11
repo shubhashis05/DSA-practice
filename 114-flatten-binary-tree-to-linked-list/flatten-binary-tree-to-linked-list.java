@@ -1,18 +1,20 @@
 class Solution {
-    public void helper(TreeNode root,ArrayList<TreeNode> arr ){
-        if(root == null) return;
-        arr.add(root);
-        helper(root.left,arr);
-        helper(root.right,arr);
+    public TreeNode helper(TreeNode root){
+        if(root == null) return null;
+        if(root.left == null && root.right == null) return root;
+        TreeNode leftSubTree = root.left;
+        TreeNode rightSubTree = root.right;
+        root.left = null ; root.right = null;
+        root.right = helper(leftSubTree);
+        TreeNode temp= root;
+        while(temp.right != null){
+            temp = temp.right;
+        }
+        temp.right = helper(rightSubTree);
+        return root;
     }
     public void flatten(TreeNode root) {
         if(root == null || (root.left == null && root.right == null)) return;
-        ArrayList<TreeNode> arr = new ArrayList<>();
-        helper(root,arr);
-        for(int i = 1 ; i < arr.size() ; i++){
-            TreeNode temp = arr.get(i-1);
-            temp.left = null;
-            temp.right = arr.get(i);
-        }
+        helper(root);
     }
 }

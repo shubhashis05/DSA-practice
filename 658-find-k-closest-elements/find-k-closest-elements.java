@@ -1,24 +1,44 @@
 class Solution {
-    public List<Integer> findClosestElements(int[] arr, int k, int x) {
-        PriorityQueue<int[]> pq = new PriorityQueue<>((a, b) -> {
-            if (a[0] == b[0])
-                return b[1] - a[1];
 
-            return b[0] - a[0];
+    class Pair {
+        int distance;
+        int value;
+
+        Pair(int distance, int value) {
+            this.distance = distance;
+            this.value = value;
+        }
+    }
+
+    public List<Integer> findClosestElements(int[] arr, int k, int x) {
+
+        PriorityQueue<Pair> pq = new PriorityQueue<>((a, b) -> {
+
+            if (a.distance == b.distance)
+                return b.value - a.value;
+
+            return b.distance - a.distance;
         });
+
         for (int i = 0; i < arr.length; i++) {
-            int dis = Math.abs(arr[i] - x);
-            int[] temp = { dis, arr[i] };
-            pq.add(temp);
+
+            int distance = Math.abs(arr[i] - x);
+
+            pq.add(new Pair(distance, arr[i]));
+
             if (pq.size() > k)
                 pq.remove();
         }
+
         List<Integer> ans = new ArrayList<>();
-        while (pq.size() > 0) {
-            int[] temp = pq.remove();
-            ans.add(temp[1]);
+
+        while (!pq.isEmpty()) {
+            Pair p = pq.remove();
+            ans.add(p.value);
         }
+
         Collections.sort(ans);
+
         return ans;
     }
 }

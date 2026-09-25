@@ -1,17 +1,16 @@
 class Solution {
     public int pivotIndex(int[] nums) {
-        int[] prefixSum = new int[nums.length];
-        prefixSum[nums.length-1] = nums[nums.length-1];
-        for(int i = nums.length-2 ; i>=0 ; i--){
-            prefixSum[i]=nums[i] + prefixSum[i+1];
+        int[] arr = new int[nums.length];
+        arr[0] = nums[0];
+        for(int i = 1 ; i < nums.length ; i++){
+            arr[i] = arr[i-1]+nums[i];
         }
-        int sum = 0 ;
-        for(int i = 0 ; i < nums.length-1; i++){
-            if(sum == prefixSum[i+1]) return i;
-            sum+=nums[i];
+        for(int i = 0 ; i < arr.length ; i++){
+            int leftSum =0;
+            if(i>0) leftSum = arr[i-1];
+            int rightSum = arr[arr.length-1] - (leftSum+nums[i]);
+            if(leftSum == rightSum) return i;
         }
-        if (sum == 0)
-            return nums.length - 1;
         return -1;
     }
 }

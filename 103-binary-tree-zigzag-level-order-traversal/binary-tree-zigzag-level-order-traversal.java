@@ -14,33 +14,39 @@
  * }
  */
 class Solution {
+    static class pair{
+        TreeNode node;
+        int level = 0;
+        pair(TreeNode node , int level){
+            this.node = node;
+            this.level = level;
+        }
+    }
     public int level(TreeNode root){
         if(root == null) return 0;
-        return 1+Math.max(level(root.left),level(root.right));
+        return 1+ Math.max(level(root.left) , level(root.right));
     }
-    public void nthLevel(TreeNode root , int i , int level ,List<Integer> temp){
-        if(root == null) return;
-        if(i == level){
-            temp.add(root.val);
-            return;
-        }
-        if(i>level && i%2 == 0){
-            nthLevel(root.left,i,level+1,temp);
-            nthLevel(root.right,i,level+1,temp);
-          
-        }
-        else if(i>level){
-            nthLevel(root.right,i,level+1,temp);
-            nthLevel(root.left,i,level+1,temp);   
+    public static void helper(TreeNode root , List<List<Integer>> ans){
+        if(root == null) return ;
+        Queue<pair> q = new ArrayDeque<>();
+        q.add(new pair(root,0));
+        while(!q.isEmpty()){
+            pair p = q.remove();
+            TreeNode temp = p.node;
+            ans.get(p.level).add(temp.val);
+            if(temp.left != null) q.add(new pair(temp.left, p.level+1));
+            if(temp.right != null) q.add(new pair(temp.right, p.level+1));
         }
     }
     public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
-         int n = level(root);
+        int n = level(root);
         List<List<Integer>> ans = new ArrayList<>();
-        for(int i = 0 ; i < n ; i++){
-            List<Integer> temp = new ArrayList<>();
-            nthLevel(root,i,0,temp);
-            ans.add(temp);
+        for(int i = 0 ; i < n ; i++)
+            ans.add(new ArrayList<>()); 
+        helper(root,ans);
+         // Reverse odd levels
+        for (int i = 1; i < n; i += 2) {
+            Collections.reverse(ans.get(i));
         }
         return ans;
     }
